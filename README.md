@@ -39,6 +39,5 @@ node *merge_sort(node *a, node *b, int (*op)(int, int));
 void split_list(node *head, node **first_half, node **second_half);
 int ascending(int a, int b);
 int descending(int a, int b);
-
 void reverse_list(node **head);
 

@@ -287,6 +287,30 @@ void sort_list(node **headRef, int (*op)(int, int))
 	*headRef = merge_sort(a, b, op);
 }
 
+void split_list(node *head, node **first_half, node **second_half)
+{
+	node *slow = head;
+	node *fast = head->next;
+
+	// 'Fast' moves 2x as fast as 'slow'
+	// Before making second move of 'fast' we check if we reached end
+	while (fast != NULL)
+	{
+		fast = fast->next;
+		if (fast != NULL)
+		{
+			slow = slow->next;
+			fast = fast->next;
+		}
+	}
+
+	// 'Slow' is right before the midpoint of the list
+	// It 'next' value points to the beginning of the second half of the list
+	*first_half = head;
+	*second_half = slow->next;
+	slow->next = NULL;
+}
+
 node *merge_sort(node *a, node *b, int (*op)(int, int))
 {
 	node *result = NULL;
@@ -312,30 +336,6 @@ node *merge_sort(node *a, node *b, int (*op)(int, int))
 		result->next = merge_sort(a, b->next, op);
 	}
 	return result;
-}
-
-void split_list(node *head, node **first_half, node **second_half)
-{
-	node *slow = head;
-	node *fast = head->next;
-
-	// 'Fast' moves 2x as fast as 'slow'
-	// Before making second move of 'fast' we check if we reached end
-	while (fast != NULL)
-	{
-		fast = fast->next;
-		if (fast != NULL)
-		{
-			slow = slow->next;
-			fast = fast->next;
-		}
-	}
-
-	// 'Slow' is right before the midpoint of the list
-	// It 'next' value points to the beginning of the second half of the list
-	*first_half = head;
-	*second_half = slow->next;
-	slow->next = NULL;
 }
 	
 int ascending(int a, int b)
